@@ -1,12 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-MX">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repaso Fundamentos JavaScript</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2 · Círculos</title>
+
+<style>
+  /* Lo mínimo para que el canvas ocupe toda la ventana.
+     Este archivo casi no lo vas a tocar: el ejercicio vive en main.js */
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #12161A;
+    overflow: hidden;              /* sin scrollbars: el canvas mide exacto la ventana */
+  }
+
+  canvas {
+    display: block;                /* quita el espacio fantasma que los inline dejan abajo */
+    width: 100vw;
+    height: 100vh;
+  }
+</style>
 </head>
 <body>
-    <!-- Javascript -->
-    <script src="main.js"></script>
+
+  <!-- El único elemento de la página. Todo lo demás se dibuja adentro con JavaScript. -->
+  <canvas id="lienzo"></canvas>
+
+  <!-- Sin type="module": así el archivo corre con doble clic, sin servidor. -->
+  <script src="main.js"></script>
+
 </body>
 </html>
