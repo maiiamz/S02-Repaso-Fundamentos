@@ -94,6 +94,15 @@ function cuadro() {
       unCirculo.x += unCirculo.vx;
       unCirculo.y += unCirculo.vy;
 
+      const velocidad = Math.sqrt(unCirculo.vx * unCirculo.vx + unCirculo.vy * unCirculo.vy); //calcula la velocidad del circulo
+
+      if (velocidad > 1.5) { //si la velocidad es mayor a 1.5
+         unCirculo.radio = 20; //el radio del circulo es 20
+      } else {
+         unCirculo.radio = 10; //el radio del circulo es 10
+      };
+
+
       if (unCirculo.x - unCirculo.radio < 0) {
          unCirculo.vx *= -1; //cambia la direccion de la velocidad en x
          unCirculo.x = unCirculo.radio;
@@ -123,6 +132,7 @@ function cuadro() {
       } else if (unCirculo.vx < 0 && unCirculo.vy < 0) {
          unCirculo.color = "yellow";
       };
+
 
 
       dibujarCirculo(unCirculo);
@@ -332,6 +342,8 @@ console.log(circulos.length);
 
 // tu código aquí
 for (const unCirculo of circulos) {
+   unCirculo.x += unCirculo.vx;
+   unCirculo.y += unCirculo.vy;
 
 };
 
@@ -400,13 +412,13 @@ if (unCirculo.y + unCirculo.radio > alto) {
    ------------------------------------------------------------ */
 
 // tu código aquí
-if (unCirculo.vx > 0 && unCirculo.vy > 0) {
+if (unCirculo.vx > 0 && unCirculo.vy > 0) { //derecha a abajo
    unCirculo.color = "blue";
-} else if (unCirculo.vx < 0 && unCirculo.vy > 0) {
+} else if (unCirculo.vx < 0 && unCirculo.vy > 0) { //izquierda a abajo
    unCirculo.color = "red";
-} else if (unCirculo.vx > 0 && unCirculo.vy < 0) {
+} else if (unCirculo.vx > 0 && unCirculo.vy < 0) { //derecha a arriba
    unCirculo.color = "green";
-} else if (unCirculo.vx < 0 && unCirculo.vy < 0) {
+} else if (unCirculo.vx < 0 && unCirculo.vy < 0) { //izquierda a arriba
    unCirculo.color = "yellow";
 };
 
@@ -428,7 +440,13 @@ if (unCirculo.vx > 0 && unCirculo.vy > 0) {
    ------------------------------------------------------------ */
 
 // tu código aquí
+const velocidad = Math.sqrt(unCirculo.vx * unCirculo.vx + unCirculo.vy * unCirculo.vy); //calcula la velocidad del circulo
 
+if (velocidad > 1.5) { //si la velocidad es mayor a 1.5
+   unCirculo.radio = 20; //el radio del circulo es 20
+} else {
+   unCirculo.radio = 10; //el radio del circulo es 10
+};
 
 /* ============================================================
    ANTES DE SUBIR A GITHUB
