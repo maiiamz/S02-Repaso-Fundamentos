@@ -174,8 +174,8 @@ requestAnimationFrame(cuadro);     // arranca el ciclo
 // tu código aquí
 
 let circulo = {
-   x: Math.random() * window.innerWidth / 2,
-   y: Math.random() * window.innerHeight / 2,
+   x: Math.random() * window.innerWidth / 2, //posicion en x random
+   y: Math.random() * window.innerHeight / 2, //posicion en y random
    radio: 15,
    color: "#FF0000",
    vx: (Math.random() - 0.5) * 4, //velocidad en x
@@ -216,10 +216,10 @@ console.log(circulo);
 // tu código aquí
 
 function dibujarCirculo(circulo) {
-   ctx.beginPath();
-   ctx.arc(circulo.x, circulo.y, circulo.radio, 0, Math.PI * 2);
-   ctx.fillStyle = circulo.color;
-   ctx.fill();
+   ctx.beginPath(); //inicia un trazo nuevo
+   ctx.arc(circulo.x, circulo.y, circulo.radio, 0, Math.PI * 2); //traza un arco completo en la posición y radio del círculo
+   ctx.fillStyle = circulo.color; //pinta el relleno con el color del círculo
+   ctx.fill(); //rellena el círculo
 };
 
 /* ============================================================
@@ -242,8 +242,8 @@ function dibujarCirculo(circulo) {
    ------------------------------------------------------------ */
 
 // tu código aquí
-circulo.x += circulo.vx;
-circulo.y += circulo.vy;
+circulo.x += circulo.vx; //suma la velocidad en x a la posición en x
+circulo.y += circulo.vy; //suma la velocidad en y a la posición en y
 
 
 
@@ -341,7 +341,7 @@ console.log(circulos.length);
    ------------------------------------------------------------ */
 
 // tu código aquí
-for (const unCirculo of circulos) {
+for (const unCirculo of circulos) { //for of recorre el array de circulos y para cada uno actualiza su posición y lo dibuja
    unCirculo.x += unCirculo.vx;
    unCirculo.y += unCirculo.vy;
 
