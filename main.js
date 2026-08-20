@@ -52,19 +52,19 @@ let ancho = 0;
 let alto = 0;
 
 function ajustarLienzo() {
-    // En pantallas Retina, 1 píxel CSS son 2 o 3 píxeles reales.
-    // Topamos en 2: arriba de eso el costo sube y la diferencia no se nota.
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+   // En pantallas Retina, 1 píxel CSS son 2 o 3 píxeles reales.
+   // Topamos en 2: arriba de eso el costo sube y la diferencia no se nota.
+   const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    ancho = window.innerWidth;
-    alto = window.innerHeight;
+   ancho = window.innerWidth;
+   alto = window.innerHeight;
 
-    // Resolución interna real del canvas
-    lienzo.width = ancho * dpr;
-    lienzo.height = alto * dpr;
+   // Resolución interna real del canvas
+   lienzo.width = ancho * dpr;
+   lienzo.height = alto * dpr;
 
-    // Con esto seguimos dibujando en píxeles CSS y el navegador escala solo.
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+   // Con esto seguimos dibujando en píxeles CSS y el navegador escala solo.
+   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
 ajustarLienzo();                                     // se corre una vez al cargar
@@ -72,22 +72,71 @@ window.addEventListener("resize", ajustarLienzo);    // [13] y otra vez en cada 
 
 
 function cuadro() {
-    // Borrar lo del cuadro anterior. Si comentas esta línea vas a
-    // ver el rastro acumulado — pruébalo en algún momento, es útil.
-    ctx.clearRect(0, 0, ancho, alto);
+   // Borrar lo del cuadro anterior. Si comentas esta línea vas a
+   // ver el rastro acumulado — pruébalo en algún momento, es útil.
+   ctx.clearRect(0, 0, ancho, alto);
 
-    // ↓↓↓ AQUÍ VA A VIVIR TU DIBUJO (pasos 2, 3 y 6) ↓↓↓
-    function dibujarCirculo(circulo) {
-        ctx.beginPath();
-        ctx.arc(circulo.x, circulo.y, circulo.radio, 0, Math.PI * 2);
-        ctx.fillStyle = "#FF0000";
-        ctx.fill();
-    };
+   // ↓↓↓ AQUÍ VA A VIVIR TU DIBUJO (pasos 2, 3 y 6) ↓↓↓
 
-    // ↑↑↑ ------------------------------------------- ↑↑↑
+   //circulo.x += circulo.vx //hace que ek curculo se mueva en x
 
-    requestAnimationFrame(cuadro);   // pide el siguiente cuadro
-}
+   circulos[0].x += circulos[0].vx;
+
+   //console.log(circulos[0].x); //imprime el valor de x del circulo en la consola
+
+   dibujarCirculo(circulos[0]);//dibuja el circulo 
+
+   //console.log(circulo.x); 
+
+   //dibujarCirculo(circulo);
+
+   for (const unCirculo of circulos) {
+      unCirculo.x += unCirculo.vx;
+      unCirculo.y += unCirculo.vy;
+
+      if (unCirculo.x - unCirculo.radio < 0) {
+         unCirculo.vx *= -1; //cambia la direccion de la velocidad en x
+         unCirculo.x = unCirculo.radio;
+      };
+
+      if (unCirculo.x + unCirculo.radio > ancho) {
+         unCirculo.vx *= -1; //cambia la direccion de la velocidad en x
+         unCirculo.x = ancho - unCirculo.radio;
+      };
+
+      if (unCirculo.y - unCirculo.radio < 0) {
+         unCirculo.vy *= -1; //cambia la direccion de la velocidad en y
+         unCirculo.y = unCirculo.radio;
+      };
+
+      if (unCirculo.y + unCirculo.radio > alto) {
+         unCirculo.vy *= -1; //cambia la direccion de la velocidad en y
+         unCirculo.y = alto - unCirculo.radio;
+      };
+
+      if (unCirculo.vx > 0 && unCirculo.vy > 0) {
+         unCirculo.color = "blue";
+      } else if (unCirculo.vx < 0 && unCirculo.vy > 0) {
+         unCirculo.color = "red";
+      } else if (unCirculo.vx > 0 && unCirculo.vy < 0) {
+         unCirculo.color = "green";
+      } else if (unCirculo.vx < 0 && unCirculo.vy < 0) {
+         unCirculo.color = "yellow";
+      };
+
+
+      dibujarCirculo(unCirculo);
+
+   };
+   requestAnimationFrame(cuadro);
+
+};
+
+
+
+// ↑↑↑ ------------------------------------------- ↑↑↑
+
+// pide el siguiente cuadro
 
 requestAnimationFrame(cuadro);     // arranca el ciclo
 
@@ -114,13 +163,13 @@ requestAnimationFrame(cuadro);     // arranca el ciclo
 
 // tu código aquí
 
-const circulo = {
-    x: 150,
-    y: 150,
-    radio: 35,
-    color: "#FF0000",
-    vx: 3,
-    vy: 2
+let circulo = {
+   x: Math.random() * window.innerWidth / 2,
+   y: Math.random() * window.innerHeight / 2,
+   radio: 15,
+   color: "#FF0000",
+   vx: (Math.random() - 0.5) * 4, //velocidad en x
+   vy: (Math.random() - 0.5) * 4 //velocidad en y
 };
 
 console.log(circulo);
@@ -156,12 +205,12 @@ console.log(circulo);
 
 // tu código aquí
 
-//function dibujarCirculo(circulo) {
-    //ctx.beginPath();
-    //ctx.arc(circulo.x, circulo.y, circulo.radio, 0, Math.PI * 2);
-    //ctx.fillStyle = "#FF0000";
-    //ctx.fill();
-//};
+function dibujarCirculo(circulo) {
+   ctx.beginPath();
+   ctx.arc(circulo.x, circulo.y, circulo.radio, 0, Math.PI * 2);
+   ctx.fillStyle = circulo.color;
+   ctx.fill();
+};
 
 /* ============================================================
    PASO 3 · Que se mueva
@@ -183,6 +232,9 @@ console.log(circulo);
    ------------------------------------------------------------ */
 
 // tu código aquí
+circulo.x += circulo.vx;
+circulo.y += circulo.vy;
+
 
 
 /* ============================================================
@@ -211,6 +263,23 @@ console.log(circulo);
    ------------------------------------------------------------ */
 
 // tu código aquí
+function crearCirculo() {
+   let circulo2 = {
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      radio: 15,
+      color: "#3300ff",
+      vx: (Math.random() - 0.5) * 4, //velocidad en x
+      vy: (Math.random() - 0.5) * 4 //velocidad en y
+   };
+   return circulo2; //entrega el objeto circulo2 al que se le llama la funcion
+};
+
+let circulos = []; //nueva variable que es un array vacio
+
+circulos.push(crearCirculo());//metemos en el array el resultado de llamar a la funcion crearCirculo
+
+//console.log(circulos[0]);//comprobamos que se haya creado el circulo y se haya metido en el array
 
 
 /* ============================================================
@@ -233,6 +302,12 @@ console.log(circulo);
    ------------------------------------------------------------ */
 
 // tu código aquí
+const CANTIDAD = 200; //constante con el numero de circulos
+
+for (let i = 0; i < CANTIDAD; i++) {
+   circulos.push(crearCirculo()); //metemos en el array un circulo nuevo
+};
+console.log(circulos.length);
 
 
 /* ============================================================
@@ -256,7 +331,9 @@ console.log(circulo);
    ------------------------------------------------------------ */
 
 // tu código aquí
+for (const unCirculo of circulos) {
 
+};
 
 /* ============================================================
    PASO 7 · Que reboten                   [09] Condicionales
@@ -283,8 +360,25 @@ console.log(circulo);
    ------------------------------------------------------------ */
 
 // tu código aquí
+if (unCirculo.x - unCirculo.radio < 0) {
+   unCirculo.vx *= -1; //cambia la direccion de la velocidad en x
+   unCirculo.x = unCirculo.radio;
+};
 
+if (unCirculo.x + unCirculo.radio > ancho) {
+   unCirculo.vx *= -1; //cambia la direccion de la velocidad en x
+   unCirculo.x = ancho - unCirculo.radio;
+};
 
+if (unCirculo.y - unCirculo.radio < 0) {
+   unCirculo.vy *= -1; //cambia la direccion de la velocidad en y
+   unCirculo.y = unCirculo.radio;
+};
+
+if (unCirculo.y + unCirculo.radio > alto) {
+   unCirculo.vy *= -1; //cambia la direccion de la velocidad en y
+   unCirculo.y = alto - unCirculo.radio;
+};
 /* ============================================================
    PASO 8 · Color con criterio            [09] Condicionales
    ============================================================
@@ -306,6 +400,15 @@ console.log(circulo);
    ------------------------------------------------------------ */
 
 // tu código aquí
+if (unCirculo.vx > 0 && unCirculo.vy > 0) {
+   unCirculo.color = "blue";
+} else if (unCirculo.vx < 0 && unCirculo.vy > 0) {
+   unCirculo.color = "red";
+} else if (unCirculo.vx > 0 && unCirculo.vy < 0) {
+   unCirculo.color = "green";
+} else if (unCirculo.vx < 0 && unCirculo.vy < 0) {
+   unCirculo.color = "yellow";
+};
 
 
 /* ============================================================
